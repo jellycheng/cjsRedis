@@ -5,8 +5,8 @@
  * Desc: 
  */
 header("Content-type: text/html; charset=utf-8");
-require dirname(__DIR__) . '/vendor/autoload.php';
-require 'common.php';
+require __DIR__ . '/common.php';
 
-$res = \CjsRedis\Redis::get("auth", "key1");
-var_dump($res); 
+$res = \CjsRedis\Redis::get("pcauth", "key1");
+var_dump($res);
+echo PHP_EOL;

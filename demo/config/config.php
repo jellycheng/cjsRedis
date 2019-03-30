@@ -131,6 +131,13 @@ return array(
         'database' => 6,
         'prefix'   => 'cjs:queue:email:',
         'desc'     => '邮件队列业务'
+    ),
+    'sequence'        => array(
+        'host'     => env('REDIS_DEFAULT_HOST', '127.0.0.1'),
+        'port'     => env('REDIS_DEFAULT_PORT', '6379'),
+        'database' => 2,
+        'prefix'   => 'cjs:sequence:service:',
+        'desc'     => '生成唯一值'
     )
 
 );

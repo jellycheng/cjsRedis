@@ -5,8 +5,7 @@
  * Desc: 
  */
 header("Content-type: text/html; charset=utf-8");
-require dirname(__DIR__) . '/vendor/autoload.php';
-require 'common.php';
+require __DIR__ . '/common.php';
 //设置用户信息
 $userinfo = array('userid' => 123456,
                     'phone'=>'13712345678',

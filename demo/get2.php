@@ -5,13 +5,12 @@
  * Desc: 
  */
 header("Content-type: text/html; charset=utf-8");
-require dirname(__DIR__) . '/vendor/autoload.php';
-require 'common.php';
+require __DIR__ . '/common.php';
 
 $config = array(
-				'host'=>'10.59.74.27',
+				'host'=>'127.0.0.1',
 				'port'=>'6379',
 			);
 $obj = new \CjsRedis\RedisStore($config);
 
-echo $obj->get('abc');
+echo $obj->get('abc') . PHP_EOL;

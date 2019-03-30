@@ -1,8 +1,7 @@
 <?php
 
 header("Content-type: text/html; charset=utf-8");
-require dirname(__DIR__) . '/vendor/autoload.php';
-require 'common.php';
+require __DIR__ . '/common.php';
 putenv("REDIS_DEFAULT_HOST=127.0.0.1");
 
 //放入队列

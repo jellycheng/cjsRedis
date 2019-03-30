@@ -5,8 +5,7 @@
  * Desc: 
  */
 header("Content-type: text/html; charset=utf-8");
-require dirname(__DIR__) . '/vendor/autoload.php';
-require 'common.php';
+require __DIR__ . '/common.php';
 $i = mt_rand(100, 999);
 //开启事物
 $multi = \CjsRedis\Redis::multi('user');
