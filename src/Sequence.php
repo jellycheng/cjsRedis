@@ -6,7 +6,7 @@ namespace CjsRedis;
 
 class Sequence
 {
-    const TABLE_SEQ_KEY = 'seq:table:%s';
+    const TABLE_SEQ_KEY = 'seq:table:%s:%s';
     protected static $tblConfig = [];
     protected static $dbConfig = [
                                 'host'=>'127.0.0.1',
@@ -25,7 +25,8 @@ class Sequence
         }
         try {
             #从redis 转换4位数字
-            $key = sprintf(self::TABLE_SEQ_KEY, $tablename);
+            $tmpDate = date('Ymd', time());
+            $key = sprintf(self::TABLE_SEQ_KEY, $tablename,$tmpDate);
             $seq = Redis::incr('sequence', $key);
             if($seq && $seq%864000 == 0) { //达到阀值，设置过期
                 Redis::expire('sequence', $key, 1);
@@ -57,7 +58,7 @@ class Sequence
         }
     }
 
-    protected function dbSeq($tablename, $uid) {
+    protected static function dbSeq($tablename, $uid) {
         $dbConfig = self::$dbConfig;
         $time = time();
         $dsn = sprintf("mysql:dbname=%s;host=%s;port=%s",
@@ -83,7 +84,7 @@ class Sequence
      * @return string
      * return:获取唯一健 时间搓部分 6+5
      */
-    protected function getTimestampSeq(){
+    protected static function getTimestampSeq(){
         $time = time();
         $data = date('Ymd', $time);
         $second = $time - strtotime($data);
@@ -98,7 +99,7 @@ class Sequence
      * @return int
      * 根据userId 转换3位数字
      */
-    protected function  getUserStrIndex($str){
+    protected static function  getUserStrIndex($str){
         $n=0;
         $str = trim($str . '');
         $len = mb_strlen($str);
