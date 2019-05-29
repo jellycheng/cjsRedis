@@ -64,7 +64,7 @@ class Sequence
     {
         $index = mb_substr($seq, -3, 3); //取seq后三位，因为seq后三位也是用户id与128取模的三位
         if(!is_numeric($index)){//非数值，通过$seq重新计算索引
-            $index = self::getUserStrIndex($seq);
+            $index = self::getStrIndex($seq);
         }
         return self::getNextGlobalId($tablename, $index, true);
     }
