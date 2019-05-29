@@ -18,7 +18,7 @@ class Sequence
                             ];
 
     /**
-     * @param $tablename
+     * @param $tablename 表名前缀（即不带表号的表名），决定seq的前缀
      * @param $uid 含字母字符串或者int
      * @param bool $isUseUid 是否强制使用uid作为后缀，false自动计算，true强制且不计算
      * @return string
@@ -43,12 +43,12 @@ class Sequence
         }
         if(empty($seq) || !is_numeric($seq)){
             //从数据库中取
-            $seq = self::dbSeq($tablename, $uid);
+            $seq = self::dbSeq($tablename, $uid, $isUseUid);
         }
         if($isUseUid) {
             $id = self::getTimestampSeq()*10000000 + $seq*1000 + $uid;
         } else {
-            $id = self::getTimestampSeq()*10000000 + $seq*1000 + self::getUserStrIndex($uid);
+            $id = self::getTimestampSeq()*10000000 + $seq*1000 + self::getStrIndex($uid);
         }
 
         return $prefix.$id;
@@ -63,8 +63,8 @@ class Sequence
     public static function getNextGlobalSeq($tablename, $seq)
     {
         $index = mb_substr($seq, -3, 3); //取seq后三位，因为seq后三位也是用户id与128取模的三位
-        if(!is_numeric($index)){//非数值，重新计算索引
-            $index = self::getUserStrIndex($index);
+        if(!is_numeric($index)){//非数值，通过$seq重新计算索引
+            $index = self::getUserStrIndex($seq);
         }
         return self::getNextGlobalId($tablename, $index, true);
     }
@@ -83,7 +83,7 @@ class Sequence
         }
     }
 
-    protected static function dbSeq($tablename, $uid) {
+    protected static function dbSeq($tablename, $uid, $isUseUid) {
         $dbConfig = self::$dbConfig;
         $time = time();
         $dsn = sprintf("mysql:dbname=%s;host=%s;port=%s",
@@ -124,7 +124,7 @@ class Sequence
      * @return int
      * 根据userId 转换3位数字
      */
-    protected static function getUserStrIndex($str){
+    protected static function getStrIndex($str){
         $n=0;
         if(is_numeric($str)) { //是数值型，则后面直接取模
             $n = intval($str);
