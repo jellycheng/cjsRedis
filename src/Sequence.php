@@ -17,7 +17,13 @@ class Sequence
                                 'port'     => '3306',
                             ];
 
-    public static function getNextGlobalId($tablename, $uid){
+    /**
+     * @param $tablename
+     * @param $uid 含字母字符串或者int
+     * @param bool $isUseUid 是否强制使用uid作为后缀，false自动计算，true强制且不计算
+     * @return string
+     */
+    public static function getNextGlobalId($tablename, $uid, $isUseUid = false){
         $seq = '';
         $prefix = isset(self::$tblConfig[$tablename])?self::$tblConfig[$tablename]:'so';
         if(!isset($prefix)){
@@ -39,9 +45,28 @@ class Sequence
             //从数据库中取
             $seq = self::dbSeq($tablename, $uid);
         }
+        if($isUseUid) {
+            $id = self::getTimestampSeq()*10000000 + $seq*1000 + $uid;
+        } else {
+            $id = self::getTimestampSeq()*10000000 + $seq*1000 + self::getUserStrIndex($uid);
+        }
 
-        $id = self::getTimestampSeq()*10000000 + $seq*1000 + self::getUserStrIndex($uid);
         return $prefix.$id;
+    }
+
+    /**
+     * 通过序列号生成序列号，确保后三位一样
+     * @param $tablename
+     * @param $seq 已经存在的序列号
+     * @return string
+     */
+    public static function getNextGlobalSeq($tablename, $seq)
+    {
+        $index = mb_substr($seq, -3, 3); //取seq后三位，因为seq后三位也是用户id与128取模的三位
+        if(!is_numeric($index)){//非数值，重新计算索引
+            $index = self::getUserStrIndex($index);
+        }
+        return self::getNextGlobalId($tablename, $index, true);
     }
 
     public static function setTblPrifix($tblName, $prefix = '') {
@@ -99,12 +124,16 @@ class Sequence
      * @return int
      * 根据userId 转换3位数字
      */
-    protected static function  getUserStrIndex($str){
+    protected static function getUserStrIndex($str){
         $n=0;
-        $str = trim($str . '');
-        $len = mb_strlen($str);
-        for($i=0;$i<$len;$i++){
-            $n+=ord($str[$i]);
+        if(is_numeric($str)) { //是数值型，则后面直接取模
+            $n = intval($str);
+        } else {
+            $str = trim($str . '');
+            $len = mb_strlen($str);
+            for($i=0;$i<$len;$i++){
+                $n+=ord($str[$i]);
+            }
         }
         $res = $n%128;
         return $res;
