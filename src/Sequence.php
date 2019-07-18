@@ -34,7 +34,7 @@ class Sequence
             $tmpDate = date('Ymd', time());
             $key = sprintf(self::TABLE_SEQ_KEY, $tablename,$tmpDate);
             $seq = Redis::incr('sequence', $key);
-            if($seq && $seq%864000 == 0) { //达到阀值，设置过期
+            if($seq && $seq%9999 == 0) { //达到阀值，设置过期
                 Redis::expire('sequence', $key, 1);
             }
 
@@ -44,6 +44,7 @@ class Sequence
         if(empty($seq) || !is_numeric($seq)){
             //从数据库中取
             $seq = self::dbSeq($tablename, $uid, $isUseUid);
+            $seq = $seq%9999;
         }
         if($isUseUid) {
             $id = self::getTimestampSeq()*10000000 + $seq*1000 + $uid;
