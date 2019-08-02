@@ -7,6 +7,7 @@
  *      '业务模块名'=>array(
  *                      'host'=>'redis服务host，默认127.0.0.1',
  *                      'port'=>'redis端口,默认6379',
+ *                      'password' =>'密码可选',
  *                      'database'=>redis数据库号默认0,
  *                      'prefix'=>'该组业务redis-key前缀，注意业务前缀不要跟其它模块的prefix前缀同名，默认无',
  *                      'desc'=>'业务描述，可填项',
@@ -23,6 +24,7 @@ return array(
     'pay'          => array(
         'host'     => env('REDIS_DEFAULT_HOST', '127.0.0.1'),
         'port'     => env('REDIS_DEFAULT_PORT', '6379'),
+        'password' =>'abc123',
         'database' => 1,
         'prefix'   => 'cjs:pay:',
         'desc'     => '支付模块业务'

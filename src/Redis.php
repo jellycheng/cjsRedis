@@ -17,6 +17,7 @@ class Redis {
 			'local'=>array(
 					'host'=>'10.59.72.31',
 					'port'=>'6379',
+                    'password' =>'密码，可选',
 					'database'=>0,
 					'prefix'=>'cjs:pay:',
 					'desc'=>'支付模块业务'

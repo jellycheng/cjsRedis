@@ -30,6 +30,7 @@ return array(
     'pcauth'       => array(
         'host'     => env('REDIS_USER_AUTH_HOST', '127.0.0.1'),
         'port'     => env('REDIS_USER_AUTH_PORT', '6379'),
+        'password' =>'abc123',
         'database' => 1,
         'prefix'   => 'cjs:auth:',
         'desc'     => 'pc登录认证模块'
@@ -44,6 +45,7 @@ return array(
     'user'         => array(
         'host'     => env('REDIS_DEFAULT_HOST', '127.0.0.1'),
         'port'     => env('REDIS_DEFAULT_PORT', '6379'),
+        'password' =>'abc123',
         'database' => 2,
         'prefix'   => 'cjs:user:',
         'desc'     => '用户信息模块'
