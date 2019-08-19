@@ -15,6 +15,7 @@ require_once __DIR__ . '/common.php';
 $uid = 10010;
 $seq = \CjsRedis\Sequence::getNextGlobalId('t_order', $uid);//订单号
 echo $seq . PHP_EOL;//so190529099680001026
+
 $seq  = \CjsRedis\Sequence::getNextGlobalSeq('t_order', "so190529099680001026");
 echo $seq . PHP_EOL;
 

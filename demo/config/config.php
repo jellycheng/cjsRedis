@@ -137,6 +137,7 @@ return array(
     'sequence'        => array(
         'host'     => env('REDIS_DEFAULT_HOST', '127.0.0.1'),
         'port'     => env('REDIS_DEFAULT_PORT', '6379'),
+        'password' =>'abc123',
         'database' => 2,
         'prefix'   => 'cjs:sequence:service:',
         'desc'     => '生成唯一值'

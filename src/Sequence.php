@@ -33,8 +33,8 @@ class Sequence
             #从redis 转换4位数字
             $tmpDate = date('Ymd', time());
             $key = sprintf(self::TABLE_SEQ_KEY, $tablename,$tmpDate);
-            $seq = Redis::incr('sequence', $key);
-            if($seq && $seq%9999 == 0) { //达到阀值，设置过期
+            $seq = Redis::incr('sequence', $key);//6位
+            if($seq && $seq%999999 == 0) { //达到阀值，设置过期
                 Redis::expire('sequence', $key, 1);
             }
 
@@ -44,12 +44,14 @@ class Sequence
         if(empty($seq) || !is_numeric($seq)){
             //从数据库中取
             $seq = self::dbSeq($tablename, $uid, $isUseUid);
-            $seq = $seq%9999;
+            $seq = $seq%999999;
         }
         if($isUseUid) {
-            $id = self::getTimestampSeq()*10000000 + $seq*1000 + $uid;
+            //$id = self::getTimestampSeq()*10000000 + $seq*1000 + $uid;
+            $id = sprintf('%s%06s%03s',self::getTimestampSeq(), $seq, $uid);
         } else {
-            $id = self::getTimestampSeq()*10000000 + $seq*1000 + self::getStrIndex($uid);
+            //$id = self::getTimestampSeq()*10000000 + $seq*1000 + self::getStrIndex($uid);
+            $id = sprintf('%s%06s%03s',self::getTimestampSeq(), $seq, self::getStrIndex($uid));
         }
 
         return $prefix.$id;
