@@ -28,7 +28,7 @@ class RedisStore
 		$this->config = $config;
 		$host = (isset($config['host']) && $config['host'])?$config['host']:'127.0.0.1';
 		$port = (isset($config['port']) && $config['port'])?$config['port']:'6379';
-		$this->redis  = new \Redis;
+		$this->redis  = new \Redis();
         if (!is_object($this->redis) || !$this->redis->connect($host, $port)) {
         	//上报监控并写log，但绝对不能跑异常，否则其它业务无法进行 todo
         	//产生空对象，保证业务正常,并注意空对像的所有方法全是返回空,表示redis中没有存数据

@@ -95,6 +95,39 @@ class Redis {
 		return '';
 	}
 
+    /**
+     * 批量设置
+     * @param $groupName
+     * @param array $data
+     * @return mixed
+     */
+	public static function mset($groupName, $data = []) {
+        $mset = [];
+        $instance = static::getInstance($groupName);
+        $prefix = static::_getKeyPrefix($groupName);
+        if($prefix) {
+            foreach ($data as $tmpK=>$tmpV) {
+                $mset[$prefix . $tmpK] = $tmpV;
+            }
+        } else {
+            $mset = $data;
+        }
+        return $instance->mset($mset);
+    }
+
+    public static function mget2($groupName, $data = []) {
+        $mget = [];
+        $instance = static::getInstance($groupName);
+        $prefix = static::_getKeyPrefix($groupName);
+        if($prefix) {
+            foreach ($data as $tmpK=>$tmpV) {
+                $mget[$tmpK] = $prefix . $tmpV;
+            }
+        } else {
+            $mget = $data;
+        }
+        return $instance->mget($mget);
+    }
 
 	/**
      * $res = \CjsRedis\Redis::命令("group组名", "key名", "val值");
@@ -111,7 +144,9 @@ class Redis {
 		array_shift($args);
 		$i = count($args);
 		if($i>0) { //有参数
-			$args[0] = static::_getKeyPrefix($groupName) . $args[0];
+            if(!is_array($args[0])) {
+                $args[0] = static::_getKeyPrefix($groupName) . $args[0];
+            }
 		}
 		
 		switch ($i) {
