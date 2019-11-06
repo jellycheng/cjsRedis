@@ -46,12 +46,17 @@ class Sequence
             $seq = self::dbSeq($tablename, $uid, $isUseUid);
             $seq = $seq%999999;
         }
+
+        $sRand = self::getLetter() . self::getRand(4);
         if($isUseUid) {
             //$id = self::getTimestampSeq()*10000000 + $seq*1000 + $uid;
-            $id = sprintf('%s%06s%03s',self::getTimestampSeq(), $seq, $uid);
+            if(mb_strlen($uid)>3) {
+                $uid = "AAA";
+            }
+            $id = sprintf('%s%06s%03s%s',self::getTimestampSeq(), $seq, $uid,$sRand);
         } else {
             //$id = self::getTimestampSeq()*10000000 + $seq*1000 + self::getStrIndex($uid);
-            $id = sprintf('%s%06s%03s',self::getTimestampSeq(), $seq, self::getStrIndex($uid));
+            $id = sprintf('%s%06s%03s%s',self::getTimestampSeq(), $seq, self::getStrIndex($uid),$sRand);
         }
 
         return $prefix.$id;
@@ -143,6 +148,30 @@ class Sequence
         }
         $res = $n%128;
         return $res;
+    }
+
+    /*
+     * 获取随机字符串
+     *
+     * @author chengjinsheng
+     * @param int $p_iLength 随机字符串长度
+     * @return string
+     */
+    public static function getRand($p_iLength)
+    {
+        $sTmp = '234568923456892345689';
+        $sReturn = '';
+        $iStart = 0;
+        $iEnd = mb_strlen($sTmp) - 1;
+        for ($i = 0; $i < $p_iLength; $i++) {
+            $sReturn .= substr($sTmp, rand($iStart, $iEnd), 1);
+        }
+        return $sReturn;
+    }
+
+    public static function getLetter() {
+        $sTmp = 'ABCDEFGHKMNPRSTUVWXYZ';
+        return substr($sTmp, rand(0, mb_strlen($sTmp) - 1), 1);
     }
 
 }
