@@ -73,7 +73,11 @@ class Sequence
         if(mb_strlen($seq)<20) {
             throw new \Exception("seq值不能少于20位");
         }
-        $index = mb_substr($seq, -3, 3); //取seq后三位，因为seq后三位也是用户id与128取模的三位
+        if(mb_strlen($seq)>=26) {
+            $index = mb_substr($seq, -8, 3);
+        } else {
+            $index = mb_substr($seq, -3, 3); //取seq后三位，因为seq后三位也是用户id与128取模的三位
+        }
         if(!is_numeric($index)){//非数值，通过$seq重新计算索引
             $index = self::getStrIndex($seq);
         }

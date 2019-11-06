@@ -12,9 +12,11 @@ require_once __DIR__ . '/common.php';
 \CjsRedis\Sequence::setTblPrifix(['t_cart'=>'cart', 't_wallet'=>'m']);
 \CjsRedis\Sequence::setTblPrifix(['t_user'=>'user', 't_wallet'=>'u']);
 
-$uid = 10010;
+$uid = 10020;
 $seq = \CjsRedis\Sequence::getNextGlobalId('t_order', $uid);//订单号
 echo $seq . PHP_EOL;//so190529099680001026
+$seq  = \CjsRedis\Sequence::getNextGlobalSeq('t_order', $seq);
+echo $seq . PHP_EOL;
 
 $seq  = \CjsRedis\Sequence::getNextGlobalSeq('t_order', "so190529099680001026");
 echo $seq . PHP_EOL;
