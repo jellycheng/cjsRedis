@@ -33,7 +33,8 @@ return array(
         'password' =>'abc123',
         'database' => 1,
         'prefix'   => 'cjs:auth:',
-        'desc'     => 'pc登录认证模块'
+        'desc'     => 'pc登录认证模块',
+        'is_pconnect'=>true,
     ),
     'wirelessauth' => array(
         'host'     => env('REDIS_USER_AUTH_HOST', '127.0.0.1'),
