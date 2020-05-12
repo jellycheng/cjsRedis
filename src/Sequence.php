@@ -26,9 +26,6 @@ class Sequence
     public static function getNextGlobalId($tablename, $uid, $isUseUid = false){
         $seq = '';
         $prefix = isset(self::$tblConfig[$tablename])?self::$tblConfig[$tablename]:'so';
-        if(!isset($prefix)){
-            return $seq;
-        }
         try {
             #从redis 转换4位数字
             $tmpDate = date('Ymd', time());
