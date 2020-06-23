@@ -27,6 +27,9 @@ class RedisLock
             }
         } else if($second) { //锁失败（$int=0或false），判断释放死锁
             $lockContent = \CjsRedis\Redis::GET($group, $key);
+            if(!$lockContent) {
+                $lockContent = 0;
+            }
             $ex = $lockContent + $second;
             if($time>$ex) {//非正常锁
                 self::unlock($group, $key); //主动释放锁

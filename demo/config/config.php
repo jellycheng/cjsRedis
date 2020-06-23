@@ -103,6 +103,7 @@ return array(
     'h5'           => array(
         'host'     => env('REDIS_DEFAULT_HOST', '127.0.0.1'),
         'port'     => env('REDIS_DEFAULT_PORT', '6379'),
+        'password' =>'abc123',
         'database' => 2,
         'prefix'   => 'cjs:h5:',
         'desc'     => 'h5触屏网站独有业务模块'
