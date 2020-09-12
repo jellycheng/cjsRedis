@@ -1,8 +1,9 @@
 {
     "name": "cjs/redis",
-    "description": "",
+    "description": "The cjs redis package.对redis操作的封装.",
     "keywords": [],
-    "license": "Apache-2.0",
+    "license": "MIT",
+    "homepage": "http://www.nfangbian.com",
     "require": {
         "php": ">=5.4.0"
     },
