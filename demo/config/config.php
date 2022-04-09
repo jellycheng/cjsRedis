@@ -143,6 +143,13 @@ return array(
         'database' => 2,
         'prefix'   => 'cjs:sequence:service:',
         'desc'     => '生成唯一值'
+    ),
+    'payauthcode'=> array(
+        'host'     => env('REDIS_DEFAULT_HOST', '127.0.0.1'),
+        'port'     => env('REDIS_DEFAULT_PORT', '6379'),
+        'password' =>'abc123',
+        'database' => 2,
+        'prefix'   => 'cjs:pac:service:',
+        'desc'     => '类似付款码业务'
     )
-
 );
