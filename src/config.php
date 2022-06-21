@@ -24,7 +24,7 @@ return array(
     'pay'          => array(
         'host'     => env('REDIS_DEFAULT_HOST', '127.0.0.1'),
         'port'     => env('REDIS_DEFAULT_PORT', '6379'),
-        'password' =>'abc123',
+        'password' => env('REDIS_DEFAULT_PASSWORD', 'abc123'),
         'database' => 1,
         'prefix'   => 'cjs:pay:',
         'desc'     => '支付模块业务'
@@ -67,6 +67,7 @@ return array(
     'misc'         => array(
         'host'     => env('REDIS_DEFAULT_HOST', '127.0.0.1'),
         'port'     => env('REDIS_DEFAULT_PORT', '6379'),
+        'password' => env('REDIS_DEFAULT_PASSWORD', ''),
         'database' => 5,
         'prefix'   => 'cjs:misc:',
         'desc'     => '不好归类通通放这个模块'

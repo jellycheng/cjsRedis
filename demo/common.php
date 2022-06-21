@@ -5,7 +5,7 @@
  * Date: 2016/08/01
  * Time: 11:49
  */
-require 'fun.php';
+require __DIR__ . '/fun.php';
 
 $vendorFile = dirname(__DIR__)  .  '/vendor/autoload.php';
 if(file_exists($vendorFile)) {

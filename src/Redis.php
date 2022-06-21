@@ -44,15 +44,12 @@ class Redis {
 
 	//获取指定组的redis对象
 	public static function getInstance($group) {
-
 		if(empty(static::$config)) {
 			static::$config = static::loadRedisConfig();
 		}
-
 		if(!isset(static::$config[$group])) {
 			return new EmptyObj();
 		}
-
 		$config = static::$config[$group];
 		$host = (isset($config['host']) && $config['host'])?$config['host']:'127.0.0.1';
 		$port = (isset($config['port']) && $config['port'])?$config['port']:'6379';
@@ -71,6 +68,18 @@ class Redis {
 		}
 		return static::$redisInstance[$tmpKey];
 	}
+
+    public static function unsetInstance($group) {
+        if(isset(static::$config[$group])) {
+            $config = static::$config[$group];
+            $host = (isset($config['host']) && $config['host'])?$config['host']:'127.0.0.1';
+            $port = (isset($config['port']) && $config['port'])?$config['port']:'6379';
+            $tmpKey = md5($host.$port);
+            if(isset(static::$redisInstance[$tmpKey])) {
+                unset(static::$redisInstance[$tmpKey]);
+            }
+        }
+    }
 
     /**
      * 根据业务组名获取配置key前缀

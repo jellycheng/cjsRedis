@@ -68,7 +68,9 @@ return array(
     'misc'         => array(
         'host'     => env('REDIS_DEFAULT_HOST', '127.0.0.1'),
         'port'     => env('REDIS_DEFAULT_PORT', '6379'),
+        'password' => env('REDIS_DEFAULT_PASSWORD', 'abc123'),
         'database' => 5,
+        'is_pconnect'=>1,
         'prefix'   => 'cjs:misc:',
         'desc'     => '不好归类通通放这个模块'
     ),
