@@ -11,12 +11,12 @@ if($type == "pub") { // 发布
 } else { // 订阅
     while (true) {
         try{
-            $prefix = \CjsRedis\Redis::getKeyPrefix('misc');
-            $res = \CjsRedis\Redis::SUBSCRIBE("misc", [$prefix.$key1], function($r, $chan, $msg)use($redisGroup){
+            $prefix = \CjsRedis\Redis::getKeyPrefix($redisGroup);
+            $res = \CjsRedis\Redis::SUBSCRIBE($redisGroup, [$prefix.$key1], function($r, $chan, $msg)use($redisGroup,$key1) {
                 var_export($r);
                 echo $chan . PHP_EOL;
                 $prefix = \CjsRedis\Redis::getKeyPrefix($redisGroup);
-                if($chan == $prefix."hello01") {// 匹配的消费者 chan
+                if($chan == $prefix.$key1) {// 匹配的消费者 chan
                     echo $msg . PHP_EOL;
                 }
 
